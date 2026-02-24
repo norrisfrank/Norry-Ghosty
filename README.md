@@ -2,6 +2,8 @@
 
 A professional, modular OSINT (Open Source Intelligence) dashboard designed for structured metadata reconnaissance across network, telecom, and social identifiers.
 
+**Live Deployment:** [norry-ghosty.onrender.com](https://norry-ghosty.onrender.com/)
+
 _"Done as a fun little project to practice python and tracking."_ — **Norris Frank**
 
 ## 🚀 Overview
