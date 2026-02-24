@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NORRY_GHOSTY — Digital Intelligence Suite</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=VT323&family=Press+Start+2P&family=IBM+Plex+Mono:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        /* ============================================================
+   NORRY_GHOSTY — PIXELATED CYBER INTELLIGENCE SUITE
+   Inspired by: https://dribbble.com/shots/26704332
+   ============================================================ */
+
+        :root {
+            --bg-deep: #0a0a0a;
+            --bg-panel: #1a1a1a;
+            --bg-card: #242424;
+
+            --orange-glow: #ff6b00;
+            --orange-bright: #ff8c1a;
+            --orange-dim: rgba(255, 107, 0, 0.15);
+
+            --cyan-accent: #00d9ff;
+            --green-ok: #00ff88;
+            --red-alert: #ff3366;
+            --yellow-warn: #ffcc00;
+
+            --text-primary: #e8e8e8;
+            --text-muted: #888888;
+            --text-dim: #555555;
+
+            --pixel-border: 2px;
+            --glow-orange: 0 0 12px var(--orange-glow), 0 0 24px rgba(255, 107, 0, 0.4);
+            --glow-cyan: 0 0 12px var(--cyan-accent), 0 0 24px rgba(0, 217, 255, 0.4);
+
+            --font-pixel: 'Press Start 2P', 'VT323', monospace;
+            --font-term: 'IBM Plex Mono', 'Courier New', monospace;
+            --font-retro: 'VT323', monospace;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: var(--font-term);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            height: 100vh;
+            overflow: hidden;
+            /* NON-SCROLLABLE AS REQUESTED */
+            image-rendering: pixelated;
+            display: flex;
+            flex-direction: column;
+            font-size: 1.1rem;
+            /* SLIGHTLY BIGGER BASE FONT */
+        }
+
+        /* ─── SCANLINE OVERLAY ─── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 9999;
+            background: repeating-linear-gradient(0deg, rgba(255, 107, 0, 0.03) 0px, transparent 1px, transparent 2px, rgba(255, 107, 0, 0.03) 3px);
+            animation: scanlines 8s linear infinite;
+        }
+
+        @keyframes scanlines {
+            to {
+                transform: translateY(4px);
+            }
+        }
+
+        .scanlines-overlay {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(to bottom, transparent 50%, rgba(255, 107, 0, 0.05) 50%);
+            background-size: 100% 4px;
+            z-index: 999;
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        /* ─── FLOATING GHOST ASSETS (MORE FLUID) ─── */
+        .floating-ghost {
+            position: fixed;
+            font-size: 3.5rem;
+            /* BIGGER GHOSTS */
+            opacity: 0.15;
+            pointer-events: none;
+            z-index: 1;
+            filter: grayscale(1) sepia(1) hue-rotate(320deg) saturate(5);
+            animation: float-fluid 25s linear infinite;
+        }
+
+        @keyframes float-fluid {
+            0% {
+                transform: translate(-10vw, 110vh) rotate(0deg);
+                opacity: 0;
+            }
+
+            10% {
+                opacity: 0.15;
+            }
+
+            90% {
+                opacity: 0.15;
+            }
+
+            100% {
+                transform: translate(110vw, -10vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* ─── HEADER ─── */
+        .header {
+            padding: 18px 30px;
+            /* SLIGHTLY BIGGER */
+            background: var(--bg-panel);
+            border-bottom: var(--pixel-border) solid var(--orange-glow);
+            box-shadow: var(--glow-orange);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 100;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .logo__icon {
+            width: 40px;
+            height: 40px;
+            background: var(--orange-glow);
+            border: var(--pixel-border) solid var(--orange-bright);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-pixel);
+            font-size: 15px;
+            color: var(--bg-deep);
+            animation: iconPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes iconPulse {
+
+            0%,
+            100% {
+                box-shadow: inset 0 0 8px rgba(255, 140, 26, 0.6), 0 0 12px var(--orange-glow);
+            }
+
+            50% {
+                box-shadow: inset 0 0 14px rgba(255, 140, 26, 0.9), 0 0 20px var(--orange-glow);
+            }
+        }
+
+        .logo__name {
+            font-family: var(--font-pixel);
+            font-size: 14px;
+            color: var(--orange-bright);
+            text-shadow: 0 0 8px var(--orange-glow);
+        }
+
+        .logo__tagline {
+            font-size: 10px;
+            color: var(--text-muted);
+            letter-spacing: 2px;
+        }
+
+        .header__status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 11px;
+            color: var(--green-ok);
+        }
+
+        .header__status::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--green-ok);
+            animation: blink 1.4s infinite;
+        }
+
+        @keyframes blink {
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        /* ─── HERO & STATEMENT ─── */
+        .hero {
+            padding: 40px 24px 25px;
+            text-align: center;
+            border-bottom: 1px solid var(--orange-dim);
+        }
+
+        .hero__title {
+            font-family: var(--font-pixel);
+            font-size: 2rem;
+            color: var(--orange-bright);
+            text-shadow: var(--glow-orange);
+            margin-bottom: 12px;
+            animation: glitchTitle 3s infinite;
+        }
+
+        @keyframes glitchTitle {
+
+            0%,
+            90%,
+            100% {
+                transform: translate(0);
+            }
+
+            92% {
+                transform: translate(-2px, 1px);
+            }
+
+            94% {
+                transform: translate(2px, -1px);
+            }
+        }
+
+        .hero__desc {
+            font-family: var(--font-term);
+            font-size: 1.2rem;
+            /* SLIGHTLY BIGGER */
+            color: var(--text-primary);
+            max-width: 800px;
+            margin: 0 auto;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+        }
+
+        .hero__branding {
+            font-family: var(--font-pixel);
+            font-size: 0.8rem;
+            color: var(--orange-glow);
+            margin-top: 15px;
+            opacity: 0.8;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        /* ─── MAIN CONTENT ─── */
+        .container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 25px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .modules {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+            width: 100%;
+            max-width: 1400px;
+            /* SLIGHTLY BIGGER */
+        }
+
+        .module {
+            background: var(--bg-panel);
+            border: var(--pixel-border) solid var(--orange-dim);
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            transition: all 0.3s;
+            max-height: 60vh;
+        }
+
+        .module:hover {
+            border-color: var(--orange-glow);
+            box-shadow: var(--glow-orange);
+            transform: translateY(-5px);
+        }
+
+        .module__header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 18px;
+            border-bottom: 1px solid var(--orange-dim);
+            padding-bottom: 12px;
+        }
+
+        .module__icon {
+            font-size: 1.8rem;
+        }
+
+        .module__title {
+            font-family: var(--font-pixel);
+            font-size: 12px;
+            color: var(--orange-bright);
+            text-transform: uppercase;
+        }
+
+        /* ─── FORM ELEMENTS ─── */
+        .input-group {
+            margin-bottom: 15px;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg-deep);
+            border: var(--pixel-border) solid var(--text-dim);
+            color: var(--cyan-accent);
+            font-family: var(--font-term);
+            font-size: 14px;
+            outline: none;
+        }
+
+        .input-field:focus {
+            border-color: var(--orange-glow);
+            box-shadow: var(--glow-orange);
+        }
+
+        .btn {
+            width: 100%;
+            padding: 14px;
+            background: var(--orange-glow);
+            border: var(--pixel-border) solid var(--orange-bright);
+            color: var(--bg-deep);
+            font-family: var(--font-pixel);
+            font-size: 10px;
+            cursor: pointer;
+            transition: all 0.1s;
+        }
+
+        .btn:hover {
+            background: var(--orange-bright);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 0 rgba(0, 0, 0, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(2px);
+            box-shadow: none;
+        }
+
+        /* ─── RESULTS DISPLAY (FLUID) ─── */
+        .result {
+            margin-top: 18px;
+            background: #000;
+            border: 1px solid var(--orange-dim);
+            padding: 12px;
+            font-size: 1rem;
+            flex: 1;
+            overflow-y: auto;
+            display: none;
+        }
+
+        .result.visible {
+            display: block;
+            animation: fadeIn 0.3s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
+        }
+
+        .result__row {
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #111;
+            padding: 6px 0;
+        }
+
+        .result__key {
+            color: var(--text-muted);
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .result__value {
+            color: var(--orange-bright);
+            font-size: 12px;
+            text-align: right;
+            word-break: break-all;
+        }
+
+        .result__link {
+            color: var(--green-ok);
+            text-decoration: underline;
+            font-weight: bold;
+        }
+
+        /* Scrollbar styling */
+        .result::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .result::-webkit-scrollbar-thumb {
+            background: var(--orange-glow);
+        }
+
+        /* ─── LOADING ─── */
+        .loading {
+            display: none;
+            margin-top: 12px;
+            text-align: center;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .loading__text {
+            font-family: var(--font-pixel);
+            font-size: 10px;
+            color: var(--yellow-warn);
+            animation: blink 1s infinite;
+        }
+
+        /* ─── FOOTER ─── */
+        .footer {
+            padding: 18px;
+            background: var(--bg-panel);
+            border-top: 1px solid var(--orange-dim);
+            text-align: center;
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+
+        .footer__link {
+            color: var(--orange-glow);
+            text-decoration: none;
+            margin: 0 12px;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                overflow-y: auto;
+                height: auto;
+            }
+
+            .modules {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .module {
+                max-height: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="scanlines-overlay"></div>
+    <div class="floating-ghost" style="top: 80%; left: -10%; animation-delay: 0s;">👻</div>
+    <div class="floating-ghost" style="top: 20%; left: -5%; animation-delay: 8s;">👻</div>
+    <div class="floating-ghost" style="top: 50%; left: -15%; animation-delay: 15s;">👻</div>
+    <div class="floating-ghost" style="top: 10%; left: -10%; animation-delay: 4s;">👻</div>
+
+    <header class="header">
+        <div class="logo">
+            <div class="logo__icon">NG</div>
+            <div class="logo__text">
+                <div class="logo__name">NORRY_GHOSTY</div>
+                <div class="logo__tagline">Digital Intelligence Suite</div>
+            </div>
+        </div>
+        <div class="header__status"><span>SYSTEM_ONLINE</span></div>
+    </header>
+
+    <section class="hero">
+        <h1 class="hero__title">OSINT_CORE_HUB</h1>
+        <p class="hero__desc">
+            A modular OSINT dashboard designed for structured metadata reconnaissance across network, telecom, and
+            social identifiers.
+        </p>
+        <p class="hero__branding">Created by Norris Frank</p>
+    </section>
+
+    <div class="container">
+        <div class="modules">
+            <!-- IP MODULE -->
+            <div class="module">
+                <div class="module__header">
+                    <span class="module__icon">🌍</span>
+                    <span class="module__title">IP_SCANNER</span>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="ipInput" class="input-field" placeholder="TARGET_IP [e.g. 8.8.8.8]">
+                </div>
+                <button class="btn" id="ipBtn">START_SCAN()</button>
+                <div class="loading" id="ipLoading">
+                    <div class="loading__text">SCANNING...</div>
+                </div>
+                <div class="result" id="ipResult">
+                    <div class="result__grid" id="ipData"></div>
+                </div>
+            </div>
+
+            <!-- PHONE MODULE -->
+            <div class="module">
+                <div class="module__header">
+                    <span class="module__icon">📞</span>
+                    <span class="module__title">PHONE_METADATA</span>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="phoneInput" class="input-field" placeholder="TARGET_NUM [e.g. +1...]">
+                </div>
+                <button class="btn" id="phoneBtn">ANALYSE_NUM()</button>
+                <div class="loading" id="phoneLoading">
+                    <div class="loading__text">ANALYISING...</div>
+                </div>
+                <div class="result" id="phoneResult">
+                    <div class="result__grid" id="phoneData"></div>
+                </div>
+            </div>
+
+            <!-- USER MODULE -->
+            <div class="module">
+                <div class="module__header">
+                    <span class="module__icon">👤</span>
+                    <span class="module__title">ID_LINKER</span>
+                </div>
+                <div class="input-group">
+                    <input type="text" id="usernameInput" class="input-field" placeholder="TARGET_USER [e.g. norris]">
+                </div>
+                <button class="btn" id="usernameBtn">CHECK_PLATFORMS()</button>
+                <div class="loading" id="usernameLoading">
+                    <div class="loading__text">LINKING...</div>
+                </div>
+                <div class="result" id="usernameResult">
+                    <div class="result__grid" id="usernameData"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        NORRY_GHOSTY v2.2 | <a href="#" onclick="getMyIP()" class="footer__link">SHOW_MY_IP</a> | OWNED BY NORRIS
+    </footer>
+
+    <script>
+        (function () {
+            'use strict';
+
+            const api = {
+                async call(endpoint, payload) {
+                    const response = await fetch(endpoint, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(payload)
+                    });
+                    return await response.json();
+                }
+            };
+
+            function updateResults(container, data) {
+                container.innerHTML = '';
+                Object.entries(data).forEach(([key, val]) => {
+                    if (val && typeof val !== 'object') {
+                        const row = document.createElement('div');
+                        row.className = 'result__row';
+                        row.innerHTML = `<span class="result__key">${key.replace(/_/g, ' ')}</span><span class="result__value">${val}</span>`;
+                        container.appendChild(row);
+                    } else if (val && typeof val === 'object' && !Array.isArray(val)) {
+                        // Recursively handle flat objects if any (like connection info)
+                        Object.entries(val).forEach(([k, v]) => {
+                            if (typeof v !== 'object') {
+                                const row = document.createElement('div');
+                                row.className = 'result__row';
+                                row.innerHTML = `<span class="result__key">${k}</span><span class="result__value">${v}</span>`;
+                                container.appendChild(row);
+                            }
+                        });
+                    }
+                });
+            }
+
+            // IP Logic
+            const ipBtn = document.getElementById('ipBtn');
+            ipBtn.onclick = async () => {
+                const target = document.getElementById('ipInput').value;
+                if (!target) return;
+                ipBtn.disabled = true;
+                const loading = document.getElementById('ipLoading');
+                const result = document.getElementById('ipResult');
+                const dataBox = document.getElementById('ipData');
+
+                loading.classList.add('active');
+                result.classList.remove('visible');
+
+                const data = await api.call('/api/ip', { target });
+                loading.classList.remove('active');
+                updateResults(dataBox, data);
+                result.classList.add('visible');
+                ipBtn.disabled = false;
+            };
+
+            // Phone Logic
+            const phoneBtn = document.getElementById('phoneBtn');
+            phoneBtn.onclick = async () => {
+                const target = document.getElementById('phoneInput').value;
+                if (!target) return;
+                phoneBtn.disabled = true;
+                const loading = document.getElementById('phoneLoading');
+                const result = document.getElementById('phoneResult');
+                const dataBox = document.getElementById('phoneData');
+
+                loading.classList.add('active');
+                result.classList.remove('visible');
+
+                const data = await api.call('/api/phone', { target });
+                loading.classList.remove('active');
+                updateResults(dataBox, data);
+                result.classList.add('visible');
+                phoneBtn.disabled = false;
+            };
+
+            // Username Logic
+            const userBtn = document.getElementById('usernameBtn');
+            userBtn.onclick = async () => {
+                const target = document.getElementById('usernameInput').value;
+                if (!target) return;
+                userBtn.disabled = true;
+                const loading = document.getElementById('usernameLoading');
+                const result = document.getElementById('usernameResult');
+                const dataBox = document.getElementById('usernameData');
+
+                loading.classList.add('active');
+                result.classList.remove('visible');
+
+                const data = await api.call('/api/username', { target });
+                loading.classList.remove('active');
+
+                dataBox.innerHTML = data.map(site => `
+                    <div class="result__row">
+                        <span class="result__key">${site.name}</span>
+                        <div class="result__value">
+                            ${site.status === 'found' ?
+                        `<a href="${site.url}" target="_blank" class="result__link">${site.url}</a>` :
+                        '<span style="color: #555">NOT_FOUND</span>'}
+                        </div>
+                    </div>
+                `).join('');
+
+                result.classList.add('visible');
+                userBtn.disabled = false;
+            };
+
+            window.getMyIP = async () => {
+                const res = await fetch('/api/myip');
+                const data = await res.json();
+                alert("SYSTEM ID: " + data.ip);
+            };
+
+            // Enter key support
+            document.querySelectorAll('input').forEach(input => {
+                input.onkeydown = (e) => { if (e.key === 'Enter') input.parentElement.nextElementSibling.click(); };
+            });
+
+        })();
+    </script>
+</body>
+
+</html>
